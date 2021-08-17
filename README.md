@@ -1,3 +1,3 @@
 # Covid Portfolio Project
 
-An SQL project to analyze Covid data
+Part 1 - Data Exploration using Microsoft SQL Server Management Studio
