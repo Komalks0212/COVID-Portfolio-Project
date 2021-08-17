@@ -129,6 +129,8 @@ JOIN PortfolioProject..CovidVaccinations as vac
 WHERE dea.continent is not null
 ORDER BY 2,3
 
+
+
 -- USE CTE
 
 With PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated) as
@@ -158,10 +160,11 @@ WHERE dea.continent is not null
 SELECT Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated, (RollingPeopleVaccinated/Population)*100 as VaccinatedPercentage 
 FROM PopvsVac
 
+
+
 -- Creating a table with above data
 
 DROP TABLE if exists #PercentPopulationVaccinated 
-
 
 CREATE TABLE #PercentPopulationVaccinated
 (
@@ -173,7 +176,6 @@ New_Vaccinations numeric,
 RollingPeopleVaccinated numeric
 )
 
-
 INSERT INTO #PercentPopulationVaccinated
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, 
 SUM(CONVERT(int, vac.new_vaccinations)) OVER (PARTITION By dea.location ORDER BY dea.location, dea.date) as RollingPeopleVaccinated
@@ -183,9 +185,10 @@ JOIN PortfolioProject..CovidVaccinations as vac
  and dea.date = vac.date
 WHERE dea.continent is not null
 
-
 SELECT *, (RollingPeopleVaccinated/Population)*100 as VaccinatedPercentage 
 FROM #PercentPopulationVaccinated
+
+
 
 -- Creating View to store data for later visualizations
 
